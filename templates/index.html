@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System | Premium Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Student Portal</h1>
+            <p class="subtitle">Manage academic records with precision and elegance.</p>
+        </header>
+
+        <section class="add-student">
+            <form action="{{ url_for('add') }}" method="POST">
+                <input type="text" name="name" placeholder="Student Name" required>
+                <input type="number" name="age" placeholder="Age" required>
+                <input type="text" name="course" placeholder="Course / Department" required>
+                <button type="submit" class="add-btn">Enroll Student</button>
+            </form>
+        </section>
+
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Course</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr class="student-row">
+                        <td>#{{ student.id }}</td>
+                        <td style="font-weight: 600;">{{ student.name }}</td>
+                        <td>{{ student.age }}</td>
+                        <td><span class="course-badge">{{ student.course }}</span></td>
+                        <td>
+                            <form action="{{ url_for('delete', student_id=student.id) }}" method="POST" style="background: none; padding: 0; margin: 0; border: none; display: inline;">
+                                <button type="submit" class="delete-btn">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    {% if not students %}
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-dim); padding: 3rem;">
+                            No students enrolled yet. Start by adding one above.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
